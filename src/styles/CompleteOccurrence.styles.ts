@@ -1,0 +1,258 @@
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0A0E27',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 40,
+  },
+  header: {
+    marginBottom: 24,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 8,
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    color: '#999',
+  },
+  section: {
+    backgroundColor: '#1a1f3a',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FF6B35',
+    marginBottom: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#2a2f4a',
+  },
+  formGroup: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#fff',
+    marginBottom: 8,
+  },
+  required: {
+    color: '#FF6B6B',
+  },
+  textInput: {
+    backgroundColor: '#0A0E27',
+    borderWidth: 1,
+    borderColor: '#2a2f4a',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    color: '#fff',
+    fontSize: 14,
+  },
+  textInputFocused: {
+    borderColor: '#FF6B35',
+  },
+  textArea: {
+    backgroundColor: '#0A0E27',
+    borderWidth: 1,
+    borderColor: '#2a2f4a',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    color: '#fff',
+    fontSize: 14,
+    minHeight: 100,
+    textAlignVertical: 'top',
+  },
+  pickerContainer: {
+    backgroundColor: '#1a1f3a',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+  },
+  picker: {
+    color: '#fff',
+  },
+  dateTimeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#2a2f4a',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#3a4f6a',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 12,
+  },
+  dateTimeButtonText: {
+    flex: 1,
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  dateTimeButtonPlaceholder: {
+    color: '#666',
+    fontSize: 14,
+  },
+  pickerButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 16,
+    gap: 12,
+  },
+  pickerButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  pickerButtonConfirm: {
+    backgroundColor: '#FF6B35',
+  },
+  pickerButtonCancel: {
+    backgroundColor: '#666',
+  },
+  pickerButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  multiSelectContainer: {
+    backgroundColor: '#0A0E27',
+    borderWidth: 1,
+    borderColor: '#2a2f4a',
+    borderRadius: 8,
+    padding: 12,
+  },
+  selectedItemsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  selectedItem: {
+    backgroundColor: '#FF6B35',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+  },
+  selectedItemText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  submitButton: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  submitButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  submitButtonDisabled: {
+    backgroundColor: '#666',
+  },
+  errorText: {
+    color: '#FF6B6B',
+    fontSize: 12,
+    marginTop: 4,
+  },
+  helperText: {
+    color: '#999',
+    fontSize: 12,
+    marginTop: 4,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    color: '#999',
+    fontSize: 16,
+    marginTop: 16,
+  },
+  locationButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FF6B35',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginTop: 12,
+    gap: 8,
+  },
+  locationButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  photoButtonsContainer: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 16,
+  },
+  photoButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    backgroundColor: '#0A0E27',
+    borderWidth: 2,
+    borderColor: '#FF6B35',
+    borderRadius: 8,
+    gap: 8,
+  },
+  photoButtonText: {
+    color: '#FF6B35',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  photosContainer: {
+    marginTop: 16,
+    paddingVertical: 12,
+  },
+  photoItem: {
+    position: 'relative',
+    marginRight: 12,
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  photoImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 8,
+  },
+  deletePhotoButton: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    backgroundColor: 'rgba(255, 0, 0, 0.8)',
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

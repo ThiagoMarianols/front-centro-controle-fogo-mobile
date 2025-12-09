@@ -1,0 +1,103 @@
+export interface IAddress {
+  zipCode: string;
+  street: string;
+  number: number;
+  neighborhood: string;
+  city: string;
+  state: string;
+  complement?: string;
+}
+
+export interface IOccurrenceRequest {
+  occurrenceHasVictims: boolean;
+  occurrenceRequester: string;
+  occurrenceRequesterPhoneNumber: string;
+  occurrenceSubType: number;
+  address: IAddress;
+}
+
+export interface IUpdateOccurrenceRequest {
+  occurrenceHasVictims: boolean;
+  occurrenceRequester: string;
+  occurrenceRequesterPhoneNumber: string;
+  occurrenceSubType: number;
+  address: IAddress;
+  occurrenceDetails: string;
+  latitude?: number;
+  longitude?: number;
+  occurrenceArrivalTime?: string;
+  userIds: number[];
+  vehicles: number[];
+  status: number;
+  battalionIds: number[];
+  photoUrls?: string[];
+}
+
+export interface IOccurrenceOnSiteRequest {
+  occurrenceDetails: string;
+  latitude: number;
+  longitude: number;
+  occurrenceArrivalTime: string;
+  userIds: number[];
+  status?: number;
+  occurrenceId?: number;
+  vehicles?: number[];
+  battalionIds?: number[];
+  photoUrls?: string[];
+}
+
+export interface IOccurrenceDTO {
+  id: number;
+  occurrenceHasVictims: boolean;
+  occurrenceRequester: string;
+  occurrenceRequesterPhoneNumber: string;
+  occurrenceSubType: string;
+  occurrenceDetails?: string;
+  latitude?: number;
+  longitude?: number;
+  occurrenceArrivalTime?: string;
+  status: string;
+  createDate: string;
+  active: boolean;
+  zipCode?: string;
+  street?: string;
+  number?: string;
+  neighborhood?: string;
+  city?: string;
+  state?: string;
+  complement?: string;
+  photoUrls?: string[];
+  address?: IAddress;
+  users?: any[];
+  battalions?: string[];
+}
+
+export interface IPaginatedResponse {
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  totalItems: number;
+  hasPrevious: boolean;
+  hasNext: boolean;
+  items: IOccurrenceDTO[];
+}
+
+export interface IOccurrenceType {
+  id: number;
+  name: string;
+}
+
+export interface IOccurrenceSubtype {
+  id: number;
+  name: string;
+}
+
+export interface IOccurrenceStatus {
+  id: number;
+  name: string;
+}
+
+export interface IOccurrenceNature {
+  id: number;
+  name: string;
+}
