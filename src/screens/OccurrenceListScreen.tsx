@@ -18,6 +18,7 @@ import { styles } from '../styles/OccurrenceList.styles';
 import occurrenceService from '../services/occurrence.service';
 import { IOccurrenceDTO } from '../types/occurrence.types';
 import Toast from 'react-native-toast-message';
+import { formatPhone, removeFormatting } from '../utils/format';
 
 type RootStackParamList = {
   OccurrenceList: undefined;
@@ -97,9 +98,13 @@ export const OccurrenceListScreen: React.FC<Props> = ({ navigation }) => {
       // Filtro por busca
       if (searchText.trim()) {
         const search = searchText.toLowerCase();
+        const searchDigitsOnly = removeFormatting(search);
+        const phoneDigitsOnly = removeFormatting(occurrence.occurrenceRequesterPhoneNumber || '');
+        
         return (
           occurrence.occurrenceRequester?.toLowerCase().includes(search) ||
           occurrence.occurrenceRequesterPhoneNumber?.includes(search) ||
+          phoneDigitsOnly.includes(searchDigitsOnly) ||
           occurrence.id.toString().includes(search)
         );
       }
@@ -133,7 +138,7 @@ export const OccurrenceListScreen: React.FC<Props> = ({ navigation }) => {
 
       <View style={styles.cardRow}>
         <Text style={styles.cardLabel}>Telefone</Text>
-        <Text style={styles.cardValue}>{item.occurrenceRequesterPhoneNumber}</Text>
+        <Text style={styles.cardValue}>{formatPhone(item.occurrenceRequesterPhoneNumber || '')}</Text>
       </View>
 
       <View style={styles.cardRow}>
@@ -185,73 +190,85 @@ export const OccurrenceListScreen: React.FC<Props> = ({ navigation }) => {
     );
   }
 
+  // Componente de cabeçalho para o FlatList
+  const ListHeader = () => (
+    <View>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Ocorrências</Text>
+        <Text style={styles.headerSubtitle}>
+          {filteredAndSortedOccurrences.length} ocorrência(s)
+        </Text>
+      </View>
+
+      {/* Campo de Busca */}
+      <View style={styles.searchContainer}>
+        <MaterialCommunityIcons name="magnify" size={20} color="#999" />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Buscar por nome, telefone ou ID..."
+          placeholderTextColor="#999"
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+        {searchText.length > 0 && (
+          <TouchableOpacity onPress={() => setSearchText('')}>
+            <MaterialCommunityIcons name="close" size={20} color="#999" />
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {/* Filtro de Status */}
+      <View style={styles.filterContainer}>
+        <TouchableOpacity
+          style={[
+            styles.filterButton,
+            filterStatus === 'pending' && styles.filterButtonActive,
+          ]}
+          onPress={() => setFilterStatus('pending')}
+        >
+          <Text style={styles.filterButtonText}>Em Atendimento</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.filterButton,
+            filterStatus === 'waiting' && styles.filterButtonActive,
+          ]}
+          onPress={() => setFilterStatus('waiting')}
+        >
+          <Text style={styles.filterButtonText}>Aguardando</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.filterButton,
+            filterStatus === 'all' && styles.filterButtonActive,
+          ]}
+          onPress={() => setFilterStatus('all')}
+        >
+          <Text style={styles.filterButtonText}>Todas</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { flex: 1 }]}>
       <StatusBar style="light" />
-      <ScrollView
-        style={styles.scrollContainer}
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Ocorrências</Text>
-          <Text style={styles.headerSubtitle}>
-            {filteredAndSortedOccurrences.length} ocorrência(s)
-          </Text>
-        </View>
-
-        {/* Campo de Busca */}
-        <View style={styles.searchContainer}>
-          <MaterialCommunityIcons name="magnify" size={20} color="#999" />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Buscar por nome, telefone ou ID..."
-            placeholderTextColor="#999"
-            value={searchText}
-            onChangeText={setSearchText}
-          />
-          {searchText.length > 0 && (
-            <TouchableOpacity onPress={() => setSearchText('')}>
-              <MaterialCommunityIcons name="close" size={20} color="#999" />
-            </TouchableOpacity>
-          )}
-        </View>
-
-        {/* Filtro de Status */}
-        <View style={styles.filterContainer}>
-          <TouchableOpacity
-            style={[
-              styles.filterButton,
-              filterStatus === 'pending' && styles.filterButtonActive,
-            ]}
-            onPress={() => setFilterStatus('pending')}
-          >
-            <Text style={styles.filterButtonText}>Em Atendimento</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.filterButton,
-              filterStatus === 'waiting' && styles.filterButtonActive,
-            ]}
-            onPress={() => setFilterStatus('waiting')}
-          >
-            <Text style={styles.filterButtonText}>Aguardando</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.filterButton,
-              filterStatus === 'all' && styles.filterButtonActive,
-            ]}
-            onPress={() => setFilterStatus('all')}
-          >
-            <Text style={styles.filterButtonText}>Todas</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Lista de Ocorrências */}
-        {filteredAndSortedOccurrences.length === 0 ? (
+      {filteredAndSortedOccurrences.length === 0 ? (
+        <ScrollView
+          style={[styles.scrollContainer, { flex: 1 }]}
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor="#FF6B35"
+            />
+          }
+        >
+          <ListHeader />
           <View style={styles.emptyContainer}>
             <MaterialCommunityIcons
               name="file-document-outline"
@@ -260,23 +277,26 @@ export const OccurrenceListScreen: React.FC<Props> = ({ navigation }) => {
             />
             <Text style={styles.emptyText}>Nenhuma ocorrência encontrada</Text>
           </View>
-        ) : (
-          <FlatList
-            data={filteredAndSortedOccurrences}
-            renderItem={renderOccurrenceCard}
-            keyExtractor={(item) => item.id.toString()}
-            contentContainerStyle={styles.listContainer}
-            scrollEnabled={false}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                tintColor="#FF6B35"
-              />
-            }
-          />
-        )}
-      </ScrollView>
+        </ScrollView>
+      ) : (
+        <FlatList
+          style={{ flex: 1 }}
+          data={filteredAndSortedOccurrences}
+          renderItem={renderOccurrenceCard}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={{ paddingBottom: 16 }}
+          ListHeaderComponent={ListHeader}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor="#FF6B35"
+            />
+          }
+          showsVerticalScrollIndicator={true}
+          scrollEnabled={true}
+        />
+      )}
     </SafeAreaView>
   );
 };

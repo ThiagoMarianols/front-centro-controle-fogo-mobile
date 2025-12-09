@@ -16,6 +16,7 @@ import { styles } from '../styles/OccurrenceDetail.styles';
 import occurrenceService from '../services/occurrence.service';
 import { IOccurrenceDTO } from '../types/occurrence.types';
 import Toast from 'react-native-toast-message';
+import { formatPhone, formatZipCode } from '../utils/format';
 
 type RootStackParamList = {
   OccurrenceDetail: { id: number };
@@ -123,7 +124,7 @@ export const OccurrenceDetailScreen: React.FC<Props> = ({ route, navigation }) =
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Telefone do Solicitante</Text>
             <Text style={styles.infoValue}>
-              {occurrence.occurrenceRequesterPhoneNumber}
+              {formatPhone(occurrence.occurrenceRequesterPhoneNumber || '')}
             </Text>
           </View>
 
@@ -146,33 +147,33 @@ export const OccurrenceDetailScreen: React.FC<Props> = ({ route, navigation }) =
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Rua</Text>
-            <Text style={styles.infoValue}>{occurrence.street || '-'}</Text>
+            <Text style={styles.infoValue}>{occurrence.address?.street || occurrence.street || '-'}</Text>
           </View>
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Número</Text>
-            <Text style={styles.infoValue}>{occurrence.number || '-'}</Text>
+            <Text style={styles.infoValue}>{occurrence.address?.number || occurrence.number || '-'}</Text>
           </View>
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Bairro</Text>
-            <Text style={styles.infoValue}>{occurrence.neighborhood || '-'}</Text>
+            <Text style={styles.infoValue}>{occurrence.address?.neighborhood || occurrence.neighborhood || '-'}</Text>
           </View>
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Cidade</Text>
-            <Text style={styles.infoValue}>{occurrence.city || '-'}</Text>
+            <Text style={styles.infoValue}>{occurrence.address?.city || occurrence.city || '-'}</Text>
           </View>
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>CEP</Text>
-            <Text style={styles.infoValue}>{occurrence.zipCode || '-'}</Text>
+            <Text style={styles.infoValue}>{formatZipCode(occurrence.address?.zipCode || occurrence.zipCode || '')}</Text>
           </View>
 
-          {occurrence.complement && (
+          {(occurrence.address?.complement || occurrence.complement) && (
             <View style={styles.infoRow}>
               <Text style={styles.infoLabel}>Complemento</Text>
-              <Text style={styles.infoValue}>{occurrence.complement}</Text>
+              <Text style={styles.infoValue}>{occurrence.address?.complement || occurrence.complement}</Text>
             </View>
           )}
         </View>

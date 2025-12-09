@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useAuth } from '../contexts/AuthContext';
 import { LoginScreen } from '../screens/LoginScreen';
 import { SimpleHomeScreen } from '../screens/SimpleHomeScreen';
-import { HomeScreen } from '../screens/HomeScreen';
+import { HomeScreen } from '../screens/UserScreen';
 import { OccurrenceListScreen } from '../screens/OccurrenceListScreen';
 import { OccurrenceDetailScreen } from '../screens/OccurrenceDetailScreen';
 import { CompleteOccurrenceScreen } from '../screens/CompleteOccurrenceScreen';

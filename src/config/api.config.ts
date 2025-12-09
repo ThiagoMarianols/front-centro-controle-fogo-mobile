@@ -2,7 +2,7 @@
 import { API_URL } from '@env';
 
 export const API_CONFIG = {
-  BASE_URL: API_URL || 'http://10.0.1.106:8088/api',
+  BASE_URL: API_URL || 'http://172.26.38.130:8088/api',
   TIMEOUT: 30000,
   
   ENDPOINTS: {

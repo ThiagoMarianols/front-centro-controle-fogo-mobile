@@ -415,7 +415,7 @@ export const CompleteOccurrenceScreen: React.FC<Props> = ({
     try {
       setSubmitting(true);
       
-      // Validar se a data é válida
+      // Valida se a data é válida
       if (isNaN(arrivalDate.getTime())) {
         Toast.show({
           type: 'error',

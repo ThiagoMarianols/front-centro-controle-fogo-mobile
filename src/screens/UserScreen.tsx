@@ -14,6 +14,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { styles } from '../styles/HomeScreen.styles';
 import authService from '../services/auth.service';
 import { User } from '../types/auth.types';
+import { formatPhone, formatCPF } from '../utils/format';
 
 export const HomeScreen: React.FC = () => {
   const { user, signOut } = useAuth();
@@ -72,8 +73,8 @@ export const HomeScreen: React.FC = () => {
               <Text style={styles.cardTitle}>Informações Pessoais</Text>
               <InfoItem icon="account" label="Usuário" value={userData?.username || '-'} />
               <InfoItem icon="email" label="Email" value={userData?.email || '-'} />
-              <InfoItem icon="phone" label="Telefone" value={userData?.phoneNumber || '-'} />
-              <InfoItem icon="card-account-details" label="CPF" value={userData?.cpf || '-'} />
+              <InfoItem icon="phone" label="Telefone" value={formatPhone(userData?.phoneNumber || '')} />
+              <InfoItem icon="card-account-details" label="CPF" value={formatCPF(userData?.cpf || '')} />
               <InfoItem icon="badge-account" label="Matrícula" value={userData?.matriculates || '-'} />
               <InfoItem 
                 icon="gender-male-female" 

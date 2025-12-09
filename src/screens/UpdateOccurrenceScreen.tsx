@@ -15,6 +15,7 @@ import { styles } from '../styles/CompleteOccurrence.styles';
 import occurrenceService from '../services/occurrence.service';
 import { IOccurrenceDTO } from '../types/occurrence.types';
 import Toast from 'react-native-toast-message';
+import { formatPhone, formatZipCode, removeFormatting } from '../utils/format';
 
 type RootStackParamList = {
   UpdateOccurrence: { id: number };
@@ -97,13 +98,14 @@ export const UpdateOccurrenceScreen: React.FC<Props> = ({
 
     try {
       setSubmitting(true);
-      const data = {
+      
+      const data: any = {
         occurrenceHasVictims: occurrence?.occurrenceHasVictims || false,
         occurrenceRequester: requester,
-        occurrenceRequesterPhoneNumber: requesterPhone,
+        occurrenceRequesterPhoneNumber: removeFormatting(requesterPhone),
         occurrenceSubType: 1,
         address: {
-          zipCode,
+          zipCode: removeFormatting(zipCode),
           street,
           number: parseInt(number),
           neighborhood,
@@ -114,12 +116,16 @@ export const UpdateOccurrenceScreen: React.FC<Props> = ({
         occurrenceDetails: details,
         latitude: occurrence?.latitude,
         longitude: occurrence?.longitude,
-        occurrenceArrivalTime: occurrence?.occurrenceArrivalTime,
         userIds: [],
         vehicles: [],
         status: 1,
         battalionIds: [],
       };
+      
+      // Adicionar occurrenceArrivalTime apenas se existir
+      if (occurrence?.occurrenceArrivalTime) {
+        data.occurrenceArrivalTime = occurrence.occurrenceArrivalTime;
+      }
 
       await occurrenceService.updateOccurrence(id, data);
 
@@ -195,7 +201,7 @@ export const UpdateOccurrenceScreen: React.FC<Props> = ({
               placeholder="(11) 99999-9999"
               placeholderTextColor="#666"
               value={requesterPhone}
-              onChangeText={setRequesterPhone}
+              onChangeText={(text) => setRequesterPhone(formatPhone(text))}
               keyboardType="phone-pad"
             />
           </View>
@@ -272,7 +278,7 @@ export const UpdateOccurrenceScreen: React.FC<Props> = ({
               placeholder="12345-678"
               placeholderTextColor="#666"
               value={zipCode}
-              onChangeText={setZipCode}
+              onChangeText={(text) => setZipCode(formatZipCode(text))}
             />
           </View>
 
